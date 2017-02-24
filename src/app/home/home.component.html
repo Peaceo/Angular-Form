@@ -1,18 +1,18 @@
- <div class="container"> 
+<div class="container"> 
 <h3> Angular 2 Form</h3>
 <form #form = "ngForm" (submit)="submitForm()"  novalidate>
      <div class="form-group">
         <label> First Name </label>
-    <input type="text" class="form-control" name="firstName" ngModel>
+    <input type="text" class="form-control" name="firstName"  [(ngModel)] = "model.firstName">
      </div>
      <label> Gender </label>
      <div class="radio">
          <label>
-             <input type="radio" name="gender" value="male" ngModel>Male</label>
+             <input type="radio" name="gender" value="male"   [(ngModel)] = "model.gender">Male</label>
      </div>
      <div class="radio">
          <label>
-             <input type="radio" name="gender" value="female" ngModel>Female</label>
+             <input type="radio" name="gender" value="female"   [(ngModel)] = "model.gender">Female</label>
      </div>
      <div class="form-group">
         <label> State </label>
@@ -24,13 +24,13 @@
     </div>
     <div class="form-group">
         <label> Date of Birth </label>
-    <input type="date" class="form-control" name="dob" ngModel>
+    <input type="date" class="form-control" name="dob"   [(ngModel)] = "model.dob">
      </div>
      <div class="form-group">
         <label> Address </label>
-    <input type="textfield" class="form-control"  name="address" ngModel>
+    <input type="textfield" class="form-control"  name="address"   [(ngModel)] = "model.address">
      </div>
-     
+    
     <button class="btn btn-primary" type="submit" [disabled]="form.invalid" >submit</button>
 </form> 
 Model: {{ model | json}}
@@ -38,3 +38,26 @@ Model: {{ model | json}}
 Angular: {{ form.value | json}}
 </div>
 
+<script>
+    
+    var app = angular.module("app",[]);
+        app.controller("myCtrl", function($scope,$http){
+        $scope.submitForm = function() {
+            var data = {
+                    firstName : $scope.firstName,
+                    state : $scope.state,
+                    address : $scope.address,
+                    gender : $scope.gender,
+                    dob : $scope.dob
+                }
+            $http.post('http://localhost:8080', data)
+                .success(function (data, status, headers, config) {
+                    $scope.PostDataResponse = data;
+                })
+                .error(function(data, status, header, config){
+                    $scope.PostDataResponse = "Data: " + status;
+                });
+    };  
+
+});
+</script>

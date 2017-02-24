@@ -10,6 +10,7 @@ export class FormPoster {
 
     constructor (private http: Http) {
         }
+        
         private extractData (res: Response){
            let body = res.json();
            return body.fields || { };
@@ -28,4 +29,5 @@ let headers = new Headers({ 'Content-Type': 'application/json' });
                     .catch(this.handleError);
 
     }
+    
 }
